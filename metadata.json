@@ -1,0 +1,7 @@
+{
+  "name": "Konus Cengo",
+  "description": "An English learning tool for Cengo, a Turkish eyewear wholesaler. Tailored with his interests in marine life, diving, and sailboats, it features a new Word Fishing game, conversation practice, and puzzles. The app is personalized with mentions of his daughters, Mavi and Mercan, to make learning engaging and fun, aiming to get him trade-fair-ready in two months.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
