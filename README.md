@@ -1,20 +1,51 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# English-Turkish Tutor (Konus Cengo)
 
-# Run and deploy your AI Studio app
+A comprehensive language learning application that helps users practice and improve their English and Turkish skills through interactive exercises, conversation practice, and AI-powered feedback.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/1vlgDjOGfTu39A3oL90Pn09usXdHzTujM
+- **Interactive Vocabulary Builder** - Learn new words with contextual examples
+- **Conversation Practice** - AI-powered dialogue simulations
+- **Pronunciation Practice** - Speech recognition and feedback
+- **Grammar Exercises** - Fill-in-the-blanks and interactive explanations
+- **Progress Tracking** - Monitor your learning journey
+- **Gamification** - Word fishing and nonogram games
+- **Daily Sessions** - Structured learning activities
+
+## Tech Stack
+
+- **Frontend**: React 19 + TypeScript + Vite
+- **AI Integration**: Google Gemini API
+- **Styling**: CSS-in-JS with modern design patterns
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Set up environment variables:
+   - Copy `.env.local.example` to `.env.local` (if available)
+   - Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## Deployment
+
+This application is optimized for deployment on:
+- Vercel
+- Netlify
+- GitHub Pages
+
+The build output is located in the `dist/` folder after running `npm run build`.
