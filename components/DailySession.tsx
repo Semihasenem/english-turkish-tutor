@@ -6,8 +6,12 @@ import VocabularyBuilder from './VocabularyBuilder';
 import FillInBlanks from './FillInBlanks';
 import InteractiveExplanation from './InteractiveExplanation';
 import ExplainableText from './ExplainableText';
+import ConfidenceBooster from './ConfidenceBooster';
+import SpacedRepetition from './SpacedRepetition';
+import MotivationalProgress from './MotivationalProgress';
 
 enum ViewState {
+    CONFIDENCE_BOOST,
     TOPIC_SELECTION,
     LOADING,
     LESSON
@@ -15,6 +19,7 @@ enum ViewState {
 
 enum SessionStep {
     GRAMMAR,
+    SPACED_REPETITION,
     VOCABULULARY,
     PRACTICE,
     CONVERSATION,
@@ -32,7 +37,7 @@ const loadingMessages = [
 const beginnerTopics = GRAMMAR_LESSONS.map(lesson => lesson.grammarTopic);
 
 const ProgressBar: React.FC<{ currentStep: SessionStep }> = ({ currentStep }) => {
-    const steps = ['Grammar', 'Vocabulary', 'Practice', 'Conversation', 'Complete!'];
+    const steps = ['Grammar', 'Review', 'Vocabulary', 'Practice', 'Conversation', 'Complete!'];
     return (
         <div className="flex items-center justify-between mb-8">
             {steps.map((step, index) => (
@@ -60,11 +65,12 @@ interface DailySessionProps extends PracticeProps {
 }
 
 const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed }) => {
-    const [viewState, setViewState] = useState<ViewState>(ViewState.TOPIC_SELECTION);
+    const [viewState, setViewState] = useState<ViewState>(ViewState.CONFIDENCE_BOOST);
     const [sessionPlan, setSessionPlan] = useState<DailySessionPlan | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [currentStep, setCurrentStep] = useState<SessionStep>(SessionStep.GRAMMAR);
     const [vocabCompleted, setVocabCompleted] = useState(false);
+    const [spacedRepetitionCompleted, setSpacedRepetitionCompleted] = useState(false);
     const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
     const [showTurkishTranslations, setShowTurkishTranslations] = useState(true);
 
@@ -112,9 +118,20 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
         }, 800); // Brief loading animation
     };
 
+    const handleConfidenceBuilt = () => setViewState(ViewState.TOPIC_SELECTION);
     const handleNextStep = () => setCurrentStep(prev => prev + 1);
     const handleQuizComplete = () => setCurrentStep(SessionStep.CONVERSATION);
     const handleVocabComplete = () => { if (!vocabCompleted) setVocabCompleted(true); };
+    const handleSpacedRepetitionComplete = () => { 
+        if (!spacedRepetitionCompleted) {
+            setSpacedRepetitionCompleted(true);
+            // Update progress stats
+            const progressEvent = new CustomEvent('progressUpdated', {
+                detail: { type: 'words', amount: 5 }
+            });
+            window.dispatchEvent(progressEvent);
+        }
+    };
     
     const handleStartConversation = () => {
         if (sessionPlan) {
@@ -137,6 +154,8 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
 
     const renderContent = () => {
         switch (viewState) {
+            case ViewState.CONFIDENCE_BOOST:
+                return <ConfidenceBooster onConfidenceBuilt={handleConfidenceBuilt} showTurkish={showTurkishTranslations} />;
             case ViewState.LOADING:
                 return (
                     <div className="flex flex-col items-center justify-center text-center p-8 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg h-96">
@@ -147,20 +166,41 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                 );
             case ViewState.TOPIC_SELECTION:
                 return (
-                    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-center animate-fade-in">
-                        <h2 className="text-3xl font-bold font-display text-blue-900">Choose Your Voyage</h2>
-                        <p className="text-gray-600 mt-2 mb-6">What shall we learn today, matey?</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-                            {beginnerTopics.map(topic => (
-                                <button key={topic} onClick={() => fetchSession(topic)} className="p-4 bg-white border-2 border-blue-300 rounded-lg text-blue-800 font-semibold hover:bg-blue-100 hover:border-blue-500 transition-all shadow-sm hover:shadow-md">
-                                    {topic}
-                                </button>
-                            ))}
+                    <div className="space-y-6">
+                        <MotivationalProgress showTurkish={showTurkishTranslations} />
+                        <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-center animate-fade-in">
+                            <h2 className="text-3xl font-bold font-display text-blue-900">Choose Your Voyage</h2>
+                            <p className="text-gray-600 mt-2 mb-6">
+                                What shall we learn today, matey?
+                                {showTurkishTranslations && (
+                                    <span className="block text-blue-600 italic mt-1">
+                                        Bugün ne öğreneceğiz, dostum?
+                                    </span>
+                                )}
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                                {beginnerTopics.map(topic => (
+                                    <button key={topic} onClick={() => fetchSession(topic)} className="p-4 bg-white border-2 border-blue-300 rounded-lg text-blue-800 font-semibold hover:bg-blue-100 hover:border-blue-500 transition-all shadow-sm hover:shadow-md">
+                                        {topic}
+                                        {showTurkishTranslations && (
+                                            <span className="block text-sm text-blue-500 italic mt-1">
+                                                {topic === "Present Simple Tense" ? "Şimdiki Zaman" :
+                                                 topic === "Past Simple Tense" ? "Geçmiş Zaman" :
+                                                 topic === "Articles (a, an, the)" ? "Artikeller" :
+                                                 "Konu"}
+                                            </span>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="my-4 text-gray-500 font-semibold">
+                                OR {showTurkishTranslations && <span className="italic">VEYA</span>}
+                            </div>
+                            <button onClick={() => fetchSession()} className="px-8 py-4 bg-amber-500 text-white rounded-lg font-bold hover:bg-amber-600 transition-all shadow-md hover:shadow-lg">
+                                🏴‍☠️ Captain's Choice
+                                {showTurkishTranslations && <span className="block text-sm opacity-90">Kaptanın Seçimi</span>}
+                            </button>
                         </div>
-                        <div className="my-4 text-gray-500 font-semibold">OR</div>
-                        <button onClick={() => fetchSession()} className="px-8 py-4 bg-amber-500 text-white rounded-lg font-bold hover:bg-amber-600 transition-all shadow-md hover:shadow-lg">
-                            🏴‍☠️ Captain's Choice
-                        </button>
                     </div>
                 );
             case ViewState.LESSON:
@@ -209,10 +249,28 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                         <InteractiveExplanation parts={plan.detailedExplanation} showTurkish={showTurkishTranslations} />
                         <div className="text-center">
                             <button onClick={handleNextStep} className="mt-8 px-8 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition font-medium text-lg shadow-md hover:shadow-lg">
-                                Learn the Words &rarr;
-                                {showTurkishTranslations && <span className="block text-sm opacity-75">Kelimeleri Öğren</span>}
+                                Quick Memory Check &rarr;
+                                {showTurkishTranslations && <span className="block text-sm opacity-75">Hızlı Hafıza Kontrolü</span>}
                             </button>
                         </div>
+                    </div>
+                );
+            case SessionStep.SPACED_REPETITION:
+                return (
+                    <div className={stepContentClass}>
+                        <SpacedRepetition 
+                            items={plan.vocabulary} 
+                            onComplete={handleSpacedRepetitionComplete} 
+                            showTurkish={showTurkishTranslations}
+                        />
+                        {spacedRepetitionCompleted && (
+                             <div className="text-center mt-6">
+                                <button onClick={handleNextStep} className="px-8 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition font-medium text-lg shadow-md hover:shadow-lg">
+                                    Learn New Words &rarr;
+                                    {showTurkishTranslations && <span className="block text-sm opacity-75">Yeni Kelimeler Öğren</span>}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 );
             case SessionStep.VOCABULULARY:
