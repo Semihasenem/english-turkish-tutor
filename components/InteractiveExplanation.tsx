@@ -3,24 +3,29 @@ import { ExplanationPart } from '../types';
 
 interface InteractiveExplanationProps {
   parts: ExplanationPart[];
+  showTurkish?: boolean;
 }
 
 const TextPart: React.FC<{ content: string }> = ({ content }) => (
   <p className="text-gray-700 leading-relaxed my-3">{content}</p>
 );
 
-const ExamplePart: React.FC<{ english: string; turkish: string }> = ({ english, turkish }) => {
-  const [showTurkish, setShowTurkish] = useState(false);
+const ExamplePart: React.FC<{ english: string; turkish: string; globalShowTurkish?: boolean }> = ({ english, turkish, globalShowTurkish }) => {
+  const [individualShowTurkish, setIndividualShowTurkish] = useState(false);
+  const showTurkishTranslation = globalShowTurkish || individualShowTurkish;
+  
   return (
     <div className="my-4 p-4 bg-blue-50/70 border-l-4 border-blue-400 rounded-r-lg">
       <p className="font-semibold text-blue-900 italic">"{english}"</p>
-      <button
-        onClick={() => setShowTurkish(!showTurkish)}
-        className="text-sm text-blue-600 hover:underline mt-2"
-      >
-        {showTurkish ? 'Hide' : 'Show'} Turkish
-      </button>
-      {showTurkish && (
+      {!globalShowTurkish && (
+        <button
+          onClick={() => setIndividualShowTurkish(!individualShowTurkish)}
+          className="text-sm text-blue-600 hover:underline mt-2"
+        >
+          {individualShowTurkish ? 'Hide' : 'Show'} Turkish
+        </button>
+      )}
+      {showTurkishTranslation && (
         <p className="mt-1 text-gray-600 italic animate-fade-in text-sm">"{turkish}"</p>
       )}
     </div>
@@ -77,7 +82,7 @@ const QuizPart: React.FC<{ question: string; options: string[]; answer: string }
   );
 };
 
-const InteractiveExplanation: React.FC<InteractiveExplanationProps> = ({ parts }) => {
+const InteractiveExplanation: React.FC<InteractiveExplanationProps> = ({ parts, showTurkish = false }) => {
   // Failsafe if the entire detailedExplanation is not an array
   if (!Array.isArray(parts)) {
     console.error("InteractiveExplanation received non-array 'parts'", parts);
@@ -100,7 +105,7 @@ const InteractiveExplanation: React.FC<InteractiveExplanationProps> = ({ parts }
 
           case 'example':
             return 'english' in part && typeof part.english === 'string' && 'turkish' in part && typeof part.turkish === 'string' ? (
-              <ExamplePart key={index} english={part.english} turkish={part.turkish} />
+              <ExamplePart key={index} english={part.english} turkish={part.turkish} globalShowTurkish={showTurkish} />
             ) : null;
             
           case 'quiz':

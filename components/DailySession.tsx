@@ -66,6 +66,7 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
     const [currentStep, setCurrentStep] = useState<SessionStep>(SessionStep.GRAMMAR);
     const [vocabCompleted, setVocabCompleted] = useState(false);
     const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+    const [showTurkishTranslations, setShowTurkishTranslations] = useState(true);
 
     useEffect(() => {
         let interval: number;
@@ -166,10 +167,23 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                 if (!sessionPlan) return null;
                 return (
                     <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-lg border border-gray-200 animate-fade-in">
-                        <button onClick={changeTopic} className="flex items-center gap-2 text-sm text-blue-700 hover:underline font-semibold mb-4">
-                            <ArrowLeftIcon className="w-4 h-4" />
-                            Change Topic
-                        </button>
+                        <div className="flex items-center justify-between mb-4">
+                            <button onClick={changeTopic} className="flex items-center gap-2 text-sm text-blue-700 hover:underline font-semibold">
+                                <ArrowLeftIcon className="w-4 h-4" />
+                                Change Topic
+                            </button>
+                            <button 
+                                onClick={() => setShowTurkishTranslations(!showTurkishTranslations)}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                                    showTurkishTranslations 
+                                        ? 'bg-blue-100 text-blue-800 border-2 border-blue-300' 
+                                        : 'bg-gray-100 text-gray-600 border-2 border-gray-300'
+                                }`}
+                            >
+                                <span className="text-lg">🇹🇷</span>
+                                {showTurkishTranslations ? 'Hide Turkish' : 'Show Turkish'}
+                            </button>
+                        </div>
                         <ProgressBar currentStep={currentStep} />
                         <div className="mt-6">{renderLessonStep(sessionPlan)}</div>
                     </div>
@@ -184,11 +198,19 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                 return (
                     <div className={stepContentClass}>
                         <h2 className="text-3xl font-bold font-display text-blue-900 text-center mb-2">Today's Topic: {plan.grammarTopic}</h2>
-                        <p className="text-center text-gray-600 mb-6">{plan.explanation}</p>
-                        <InteractiveExplanation parts={plan.detailedExplanation} />
+                        <div className="text-center mb-6">
+                            <p className="text-gray-600">{plan.explanation}</p>
+                            {showTurkishTranslations && (
+                                <p className="text-sm text-blue-600 italic mt-2 animate-fade-in">
+                                    Bugünün konusu: {plan.grammarTopic}
+                                </p>
+                            )}
+                        </div>
+                        <InteractiveExplanation parts={plan.detailedExplanation} showTurkish={showTurkishTranslations} />
                         <div className="text-center">
                             <button onClick={handleNextStep} className="mt-8 px-8 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition font-medium text-lg shadow-md hover:shadow-lg">
                                 Learn the Words &rarr;
+                                {showTurkishTranslations && <span className="block text-sm opacity-75">Kelimeleri Öğren</span>}
                             </button>
                         </div>
                     </div>
@@ -204,6 +226,7 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                         {vocabCompleted && (
                              <button onClick={handleNextStep} className="mt-8 px-8 py-3 w-full sm:w-auto bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition font-medium text-lg shadow-md hover:shadow-lg animate-fade-in">
                                 Time to Practice &rarr;
+                                {showTurkishTranslations && <span className="block text-sm opacity-75">Pratik Zamanı</span>}
                             </button>
                         )}
                     </div>
@@ -225,13 +248,22 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                             <MessageSquareIcon className="w-6 h-6 mr-3 text-blue-700"/>
                             <ExplainableText text="Parlay with the Captain" className="text-2xl font-bold font-display text-blue-900"/>
                         </div>
-                        <p className="text-gray-600 mb-6 max-w-xl mx-auto">Ready to use what you've learned? Practice your new skills in a conversation with Captain Jack.</p>
+                        <div className="mb-6 max-w-xl mx-auto">
+                            <p className="text-gray-600">Ready to use what you've learned? Practice your new skills in a conversation with Captain Jack.</p>
+                            {showTurkishTranslations && (
+                                <p className="text-sm text-blue-600 italic mt-2 animate-fade-in">
+                                    Öğrendiklerinizi kullanmaya hazır mısınız? Kaptan Jack ile konuşarak yeni becerilerinizi pratik yapın.
+                                </p>
+                            )}
+                        </div>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                              <button onClick={handleStartConversation} className="px-8 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition font-medium text-lg shadow-md hover:shadow-lg">
                                 Let's Chat!
+                                {showTurkishTranslations && <span className="block text-sm opacity-75">Hadi Konuşalım!</span>}
                             </button>
                             <button onClick={handleSessionComplete} className="px-8 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-medium text-lg">
                                 Finish for Today
+                                {showTurkishTranslations && <span className="block text-sm opacity-75">Bugünlük Bitir</span>}
                             </button>
                         </div>
                     </div>
@@ -240,10 +272,16 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
                 return (
                     <div className={`${stepContentClass} text-center`}>
                         <CheckCircleIcon className="w-24 h-24 text-green-500 mx-auto mb-4"/>
-                        <h2 className="text-3xl font-bold font-display text-blue-900">Lesson Complete!</h2>
+                        <div className="mb-4">
+                            <h2 className="text-3xl font-bold font-display text-blue-900">Lesson Complete!</h2>
+                            {showTurkishTranslations && (
+                                <p className="text-xl text-blue-600 font-bold mt-2 animate-fade-in">Ders Tamamlandı!</p>
+                            )}
+                        </div>
                         <p className="text-lg text-gray-700 mt-2">{plan.summary}</p>
                         <button onClick={restartLesson} className="mt-8 px-8 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition font-medium text-lg shadow-md hover:shadow-lg">
                             Review Lesson
+                            {showTurkishTranslations && <span className="block text-sm opacity-75">Dersi Tekrarla</span>}
                         </button>
                     </div>
                 );
