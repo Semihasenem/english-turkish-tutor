@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AppView, DailySessionPlan, PracticeProps } from '../types';
-import { generateDailySession } from '../services/geminiService';
+import { GRAMMAR_LESSONS } from '../data/grammarLessons';
 import { ShipWheelIcon, BookOpenIcon, Edit3Icon, MessageSquareIcon, CheckCircleIcon, ArrowLeftIcon } from './Icons';
 import VocabularyBuilder from './VocabularyBuilder';
 import FillInBlanks from './FillInBlanks';
@@ -29,7 +29,7 @@ const loadingMessages = [
     "Waking the Kraken... just kidding, savvy?",
 ];
 
-const beginnerTopics = ["Present Simple", "Past Simple", "Present Continuous", "Prepositions of Place (in, on, at)", "Countable & Uncountable Nouns", "Comparative Adjectives"];
+const beginnerTopics = GRAMMAR_LESSONS.map(lesson => lesson.grammarTopic);
 
 const ProgressBar: React.FC<{ currentStep: SessionStep }> = ({ currentStep }) => {
     const steps = ['Grammar', 'Vocabulary', 'Practice', 'Conversation', 'Complete!'];
@@ -77,20 +77,38 @@ const DailySession: React.FC<DailySessionProps> = ({ setView, markDayAsPracticed
         return () => clearInterval(interval);
     }, [viewState]);
 
-    const fetchSession = async (topic?: string) => {
+    const fetchSession = (topic?: string) => {
         setViewState(ViewState.LOADING);
         setError(null);
-        try {
-            const plan = await generateDailySession(topic);
-            setSessionPlan(plan);
-            setCurrentStep(SessionStep.GRAMMAR);
-            setVocabCompleted(false);
-            setViewState(ViewState.LESSON);
-        } catch (err) {
-            setError("Blast! The sea charts for today's lesson are lost. Try again, matey.");
-            console.error(err);
-            setViewState(ViewState.TOPIC_SELECTION);
-        }
+        
+        // Simulate brief loading for better UX
+        setTimeout(() => {
+            try {
+                let plan: DailySessionPlan;
+                
+                if (topic) {
+                    // Find the lesson with matching topic
+                    const matchingLesson = GRAMMAR_LESSONS.find(lesson => 
+                        lesson.grammarTopic.toLowerCase().includes(topic.toLowerCase()) ||
+                        topic.toLowerCase().includes(lesson.grammarTopic.toLowerCase())
+                    );
+                    plan = matchingLesson || GRAMMAR_LESSONS[0];
+                } else {
+                    // Captain's choice - random lesson
+                    const randomIndex = Math.floor(Math.random() * GRAMMAR_LESSONS.length);
+                    plan = GRAMMAR_LESSONS[randomIndex];
+                }
+                
+                setSessionPlan(plan);
+                setCurrentStep(SessionStep.GRAMMAR);
+                setVocabCompleted(false);
+                setViewState(ViewState.LESSON);
+            } catch (err) {
+                setError("Blast! The sea charts for today's lesson are lost. Try again, matey.");
+                console.error(err);
+                setViewState(ViewState.TOPIC_SELECTION);
+            }
+        }, 800); // Brief loading animation
     };
 
     const handleNextStep = () => setCurrentStep(prev => prev + 1);
