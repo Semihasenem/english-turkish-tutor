@@ -528,5 +528,335 @@ export const GRAMMAR_LESSONS: DailySessionPlan[] = [
     ],
     conversationPrompt: "Practice asking important business questions to gather information about suppliers, understand client needs, and clarify terms and conditions.",
     summary: "Excellent questioning, first mate! Now ye can navigate any business conversation and uncover all the information ye need like a true merchant detective!"
+  },
+  {
+    grammarTopic: "Basic Sentence Structure (Subject + Verb + Object)",
+    explanation: "Every good ship needs a sturdy frame, matey! English sentences follow a simple pattern: who does what to what. Master this and ye'll speak like a true captain!",
+    detailedExplanation: [
+      {
+        type: "text",
+        content: "Basic English sentences follow Subject + Verb + Object (SVO). Subject = who/what, Verb = action, Object = what receives the action."
+      },
+      {
+        type: "example",
+        english: "Cengo sells eyewear.",
+        turkish: "Cengo gözlük satıyor. (Cengo = özne, sells = fiil, eyewear = nesne)"
+      },
+      {
+        type: "example",
+        english: "We import frames from Italy.",
+        turkish: "İtalya'dan çerçeve ithal ediyoruz."
+      },
+      {
+        type: "quiz",
+        question: "In 'The customer bought sunglasses', what is the object?",
+        options: ["customer", "bought", "sunglasses"],
+        answer: "sunglasses"
+      },
+      {
+        type: "text",
+        content: "Not all sentences need objects. 'The ship sails.' (Subject + Verb). But SVO is the most common pattern in business English."
+      },
+      {
+        type: "quiz",
+        question: "Complete the pattern: 'I ___ business cards.' (give to clients)",
+        options: ["give", "giving", "gave"],
+        answer: "give"
+      }
+    ],
+    vocabulary: [
+      { english: "Subject", turkish: "Özne", category: "Business" },
+      { english: "Object", turkish: "Nesne", category: "Business" },
+      { english: "Action", turkish: "Eylem", category: "Business" },
+      { english: "Pattern", turkish: "Kalıp", category: "Business" },
+      { english: "Structure", turkish: "Yapı", category: "Business" },
+      { english: "Basic", turkish: "Temel", category: "Business" }
+    ],
+    fillInBlanks: [
+      {
+        sentence: "The company ___ quality products.",
+        turkish: "Şirket kaliteli ürünler ___.",
+        blank: "makes",
+        options: ["make", "makes", "making", "made"]
+      },
+      {
+        sentence: "Our customers ___ our service.",
+        turkish: "Müşterilerimiz hizmetimizi ___.",
+        blank: "appreciate",
+        options: ["appreciates", "appreciate", "appreciating", "appreciated"]
+      },
+      {
+        sentence: "I ___ trade fairs every year.",
+        turkish: "Her yıl ticaret fuarlarını ___.",
+        blank: "attend",
+        options: ["attends", "attend", "attending", "attended"]
+      }
+    ],
+    conversationPrompt: "Practice building simple, clear sentences about your business using Subject + Verb + Object pattern. Start with basic statements about what you do.",
+    summary: "Brilliant work, first mate! Now ye have the foundation to build any sentence like constructing a solid ship!"
+  },
+  {
+    grammarTopic: "Articles (a, an, the)",
+    explanation: "Articles be like the flags on yer mast - small but mighty important! They tell others exactly what treasure ye're talking about, savvy?",
+    detailedExplanation: [
+      {
+        type: "text",
+        content: "Articles are small words before nouns. 'A/An' = any one thing (indefinite), 'The' = specific thing (definite). Essential for clear business communication!"
+      },
+      {
+        type: "example",
+        english: "I need a supplier. (any supplier)",
+        turkish: "Bir tedarikçiye ihtiyacım var. (herhangi bir tedarikçi)"
+      },
+      {
+        type: "example",
+        english: "I need the supplier we met yesterday. (specific one)",
+        turkish: "Dün tanıştığımız tedarikçiye ihtiyacım var. (belirli biri)"
+      },
+      {
+        type: "quiz",
+        question: "When do we use 'an' instead of 'a'?",
+        options: ["before plural nouns", "before vowel sounds", "before 'the'"],
+        answer: "before vowel sounds"
+      },
+      {
+        type: "text",
+        content: "Use 'a' before consonant sounds (a business), 'an' before vowel sounds (an order, an hour). Use 'the' for specific things both speakers know about."
+      },
+      {
+        type: "quiz",
+        question: "'Can you show me ___ new collection?' (specific one you mentioned)",
+        options: ["a", "an", "the"],
+        answer: "the"
+      }
+    ],
+    vocabulary: [
+      { english: "Definite", turkish: "Belirli", category: "Business" },
+      { english: "Indefinite", turkish: "Belirsiz", category: "Business" },
+      { english: "Specific", turkish: "Özel", category: "Business" },
+      { english: "General", turkish: "Genel", category: "Business" },
+      { english: "Article", turkish: "Artikel", category: "Business" },
+      { english: "Vowel", turkish: "Sesli harf", category: "Business" }
+    ],
+    fillInBlanks: [
+      {
+        sentence: "We need ___ experienced optician for our team.",
+        turkish: "Ekibimiz için ___ deneyimli gözlükçüye ihtiyacımız var.",
+        blank: "an",
+        options: ["a", "an", "the", "---"]
+      },
+      {
+        sentence: "Can you send me ___ catalog we discussed?",
+        turkish: "Tartıştığımız ___ katalogu bana gönderebilir misiniz?",
+        blank: "the",
+        options: ["a", "an", "the", "---"]
+      },
+      {
+        sentence: "This is ___ best frame in our collection.",
+        turkish: "Bu koleksiyonumuzdaki ___ en iyi çerçeve.",
+        blank: "the",
+        options: ["a", "an", "the", "---"]
+      }
+    ],
+    conversationPrompt: "Practice using articles correctly when discussing your products, services, and business needs. Pay attention to whether you're talking about something general or specific.",
+    summary: "Perfect navigation, matey! Now ye can point to exactly the right treasure with the right words - no more confusion about which ship we're talking about!"
+  },
+  {
+    grammarTopic: "Plural Nouns and There is/There are",
+    explanation: "Counting yer treasures properly be essential, mate! One frame or many frames, one lens or several lenses - get the count right and use the right words!",
+    detailedExplanation: [
+      {
+        type: "text",
+        content: "Plural nouns show more than one thing. Most add 's', some change completely. Use 'There is' with singular, 'There are' with plural."
+      },
+      {
+        type: "example",
+        english: "There is one frame on the table.",
+        turkish: "Masada bir çerçeve var."
+      },
+      {
+        type: "example",
+        english: "There are many frames in our showroom.",
+        turkish: "Showroomumuzda birçok çerçeve var."
+      },
+      {
+        type: "quiz",
+        question: "Which is correct?",
+        options: ["There is two problems", "There are two problems", "There be two problems"],
+        answer: "There are two problems"
+      },
+      {
+        type: "text",
+        content: "Common plurals: frame→frames, lens→lenses, business→businesses, child→children, person→people"
+      },
+      {
+        type: "quiz",
+        question: "What's the plural of 'company'?",
+        options: ["companys", "companies", "companyes"],
+        answer: "companies"
+      }
+    ],
+    vocabulary: [
+      { english: "Singular", turkish: "Tekil", category: "Business" },
+      { english: "Plural", turkish: "Çoğul", category: "Business" },
+      { english: "Quantity", turkish: "Miktar", category: "Business" },
+      { english: "Several", turkish: "Birkaç", category: "Business" },
+      { english: "Multiple", turkish: "Birden çok", category: "Business" },
+      { english: "Various", turkish: "Çeşitli", category: "Business" }
+    ],
+    fillInBlanks: [
+      {
+        sentence: "There ___ five different styles in this collection.",
+        turkish: "Bu koleksiyonda beş farklı stil ___.",
+        blank: "are",
+        options: ["is", "are", "be", "was"]
+      },
+      {
+        sentence: "We have many ___ from different countries.",
+        turkish: "Farklı ülkelerden birçok ___ var.",
+        blank: "suppliers",
+        options: ["supplier", "suppliers", "supplyer", "supplyies"]
+      },
+      {
+        sentence: "There ___ a new catalog on your desk.",
+        turkish: "Masanızda yeni bir katalog ___.",
+        blank: "is",
+        options: ["is", "are", "be", "were"]
+      }
+    ],
+    conversationPrompt: "Practice talking about quantities in your business - how many products you have, how many clients you serve, inventory numbers, etc.",
+    summary: "Outstanding counting, first mate! Now ye can properly describe all yer treasures, whether ye have one piece or a whole chest full!"
+  },
+  {
+    grammarTopic: "Simple Conjunctions (and, but, or, so)",
+    explanation: "Conjunctions be like the ropes that tie yer sentences together, matey! They connect yer ideas and make yer speech flow like the wind in yer sails!",
+    detailedExplanation: [
+      {
+        type: "text",
+        content: "Conjunctions connect words, phrases, or sentences. AND = addition, BUT = contrast, OR = choice, SO = result/reason."
+      },
+      {
+        type: "example",
+        english: "We sell frames and lenses.",
+        turkish: "Çerçeve ve lens satıyoruz. (addition - ekleme)"
+      },
+      {
+        type: "example",
+        english: "The frames are expensive, but they are high quality.",
+        turkish: "Çerçeveler pahalı ama yüksek kaliteli. (contrast - karşıtlık)"
+      },
+      {
+        type: "quiz",
+        question: "Which conjunction shows a result?",
+        options: ["and", "but", "so"],
+        answer: "so"
+      },
+      {
+        type: "text",
+        content: "Examples: We were late, SO we missed the meeting. Do you want frames OR sunglasses? It's cheap BUT good quality."
+      },
+      {
+        type: "quiz",
+        question: "'The product is good ___ expensive.' (showing contrast)",
+        options: ["and", "but", "or"],
+        answer: "but"
+      }
+    ],
+    vocabulary: [
+      { english: "Connection", turkish: "Bağlantı", category: "Business" },
+      { english: "Addition", turkish: "Ekleme", category: "Business" },
+      { english: "Contrast", turkish: "Karşıtlık", category: "Business" },
+      { english: "Choice", turkish: "Seçim", category: "Business" },
+      { english: "Result", turkish: "Sonuç", category: "Business" },
+      { english: "Reason", turkish: "Sebep", category: "Business" }
+    ],
+    fillInBlanks: [
+      {
+        sentence: "We can meet today ___ tomorrow, your choice.",
+        turkish: "Bugün ___ yarın buluşabiliriz, tercih sizin.",
+        blank: "or",
+        options: ["and", "but", "or", "so"]
+      },
+      {
+        sentence: "The frames are beautiful ___ very expensive.",
+        turkish: "Çerçeveler güzel ___ çok pahalı.",
+        blank: "but",
+        options: ["and", "but", "or", "so"]
+      },
+      {
+        sentence: "We were satisfied with the quality, ___ we ordered more.",
+        turkish: "Kaliteden memnun kaldık, ___ daha fazla sipariş verdik.",
+        blank: "so",
+        options: ["and", "but", "or", "so"]
+      }
+    ],
+    conversationPrompt: "Practice connecting your business ideas using conjunctions. Explain your services, compare options, and show relationships between different aspects of your work.",
+    summary: "Excellent seamanship, matey! Now ye can weave yer words together like a master rope-maker, creating strong and clear business messages!"
+  },
+  {
+    grammarTopic: "Basic Adjective Order",
+    explanation: "When ye describe yer treasures, the order matters, savvy! Just like loading a ship properly, adjectives have their rightful place in the sentence!",
+    detailedExplanation: [
+      {
+        type: "text",
+        content: "When using multiple adjectives, follow this order: Opinion → Size → Age → Shape → Color → Origin → Material → Purpose. Don't use too many!"
+      },
+      {
+        type: "example",
+        english: "Beautiful small Italian titanium frames",
+        turkish: "Güzel küçük İtalyan titanyum çerçeveler (opinion→size→origin→material)"
+      },
+      {
+        type: "example",
+        english: "High-quality new rectangular black frames",
+        turkish: "Yüksek kaliteli yeni dikdörtgen siyah çerçeveler"
+      },
+      {
+        type: "quiz",
+        question: "Which sounds natural?",
+        options: ["Italian small beautiful frames", "Beautiful small Italian frames", "Small Italian beautiful frames"],
+        answer: "Beautiful small Italian frames"
+      },
+      {
+        type: "text",
+        content: "Keep it simple! Usually 2-3 adjectives maximum. Most common in business: quality + material (premium titanium frames) or size + color (large black sunglasses)."
+      },
+      {
+        type: "quiz",
+        question: "Put in correct order: 'frames / plastic / new / stylish'",
+        options: ["plastic new stylish frames", "stylish new plastic frames", "new stylish plastic frames"],
+        answer: "stylish new plastic frames"
+      }
+    ],
+    vocabulary: [
+      { english: "Opinion", turkish: "Görüş", category: "Business" },
+      { english: "Quality", turkish: "Kalite", category: "Eyewear" },
+      { english: "Material", turkish: "Malzeme", category: "Eyewear" },
+      { english: "Stylish", turkish: "Şık", category: "Eyewear" },
+      { english: "Durable", turkish: "Dayanıklı", category: "Eyewear" },
+      { english: "Elegant", turkish: "Zarif", category: "Eyewear" }
+    ],
+    fillInBlanks: [
+      {
+        sentence: "We offer ___ ___ ___ frames for business clients.",
+        turkish: "İş müşterileri için ___ ___ ___ çerçeveler sunuyoruz.",
+        blank: "premium Italian titanium",
+        options: ["titanium premium Italian", "Italian titanium premium", "premium Italian titanium", "titanium Italian premium"]
+      },
+      {
+        sentence: "These are ___ ___ sunglasses from our collection.",
+        turkish: "Bunlar koleksiyonumuzdan ___ ___ güneş gözlükleri.",
+        blank: "stylish black",
+        options: ["black stylish", "stylish black", "black new stylish", "stylish new black"]
+      },
+      {
+        sentence: "Do you prefer ___ ___ ___ lenses?",
+        turkish: "___ ___ ___ lensleri tercih ediyor musunuz?",
+        blank: "lightweight modern plastic",
+        options: ["plastic modern lightweight", "modern lightweight plastic", "lightweight modern plastic", "plastic lightweight modern"]
+      }
+    ],
+    conversationPrompt: "Practice describing your eyewear products using 2-3 adjectives in the correct order. Focus on quality, materials, and style that appeal to business customers.",
+    summary: "Magnificent description skills, first mate! Now ye can describe yer finest treasures in ways that sound natural and professional to any merchant!"
   }
 ];
